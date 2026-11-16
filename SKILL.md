@@ -1,11 +1,11 @@
 ---
 name: motion-design-intelligence
-description: 面向国际一线品牌、数字产品、网站体验、编辑叙事与数字展览的专业动态设计智能。承担 Motion Design Director 与 Motion Art Director 职责，从事实推导原创概念、Motion DNA、动态艺术指导、时间与镜头编排、材质光影、GSAP、Three.js/WebGL、WebGPU/TSL 与 GLSL 实时视觉、交互状态、响应式和无障碍策略，并以引擎无关规格和真实运行证据交付。先判断为何运动，再决定如何运动，以及何时必须静止。
+description: 面向国际一线品牌、数字产品、网站体验、编辑叙事与数字展览的专业动态设计智能。承担 Motion Design Director 与 Motion Art Director 职责，从事实推导原创概念、Motion DNA、动态艺术指导、时间与镜头编排、材质光影、GSAP、Three.js/WebGL、WebGPU/TSL 与 GLSL 实时视觉、交互状态、响应式和无障碍策略，并以引擎无关规格、逐项验收和真实运行证据交付。先判断为何运动，再决定如何运动，以及何时必须静止。
 ---
 
 # Motion Design Intelligence
 **动态设计智能｜Motion Design Director × Motion Art Director**  
-版本：**5.4.1** · 单文件正式技能包 · 技术参考最后核查：2026-11-16
+版本：**5.5.0** · 参考清单维护日期：2026-11-16
 
 > 动态设计不是给静态画面附加效果，而是以时间、空间、运动、材质与交互关系组织体验。
 >
@@ -223,6 +223,17 @@ concept_brief:
 
 “元素依次淡入上移”“所有图片缓慢放大”“标题逐字弹入”“卡片悬停发光”“全站粒子漂浮”可作为局部手段，但不能充当原创概念。
 
+### 2.8 设计比较与概念证据
+
+对重要创意方向，至少采用与项目风险相称的比较方法；小型微交互不强制输出完整比较报告。
+
+1. **静态 / 动态对照：** 使用相同内容、构图、素材、视口与信息量，比较静态基线和动态方案。先判断运动是否改善焦点、关系揭示、状态理解、叙事节奏或操作反馈；若只是增加吸引力，却损害阅读、任务效率或性能，优先减弱或删除。内部对照只能形成设计判断（D），不能单独证明用户理解或转化提升。
+2. **概念 / 表现剥离：** 暂时移除品牌名称、颜色、纹理、光效和装饰，只保留对象关系、运动方向、时间结构与状态变化。若方向差异随装饰移除而消失，说明概念可能仍依赖风格包装；返回 2.5 收敛，而不是继续加效果。
+3. **关键帧 / 中间状态检查：** 除起始和终态外，检查主运动、遮挡、焦点交接、路径转折、可中断点和反向状态。使用确定性时间点或事件状态取帧；时间百分比仅是抽样索引，不替代真正的视觉事件。
+4. **用户收益验证：** 若对外声称改善理解、任务效率、记忆、信任或转化，需以适当的用户研究、任务测试或真实产品数据支持（R）；设计师评审和主观偏好不能代替用户证据。测试需控制内容、设备和操作条件，记录样本与限制。
+
+**比较结论格式：** `比较对象 / 保持不变的条件 / 观察到的差异 / 证据类型 / 影响与限制 / 决策`。结论只覆盖证据实际支持的范围，不把内部审美判断扩大成市场或用户结论。
+
 ## 3. Motion DNA 与运动语言
 
 ### 3.1 从品牌立场建立 Motion DNA
@@ -304,14 +315,14 @@ Motion DNA 不是一组形容词，也不是把某条缓动曲线应用到所有
 - **C1 / Velocity Continuity：** 在 C0 基础上，`dp_A/dt = dp_B/dt`，连接处速度向量一致，无速度突变。
 - **C2 / Acceleration Continuity：** 在 C1 基础上，`d²p_A/dt² = d²p_B/dt²`，连接处加速度向量一致。
 
-若两个片段使用不同的局部归一化时间（例如各自的 0–1 progress），必须通过各自的时间映射和链式法则换算到同一物理时间；直接比较局部参数 `u` 的导数没有意义。速度/加速度的单位、坐标参考系和时间基准必须一致。
+若两个片段使用不同的局部归一化进度 `u`，必须先通过映射 `u(t)` 转换到同一物理时间 `t`。链式法则为：`dp/dt = (dp/du)(du/dt)`；`d²p/dt² = (d²p/du²)(du/dt)² + (dp/du)(d²u/dt²)`。因此，仅比较两个局部 0–1 进度参数的导数，不能证明物理速度或加速度连续。速度/加速度的单位、坐标参考系、连接时刻和时间基准必须一致；如使用非线性 easing，必须把其时间映射纳入导数计算。
 
 **几何连续性独立定义：**
-- **G0：** 两段曲线在连接点位置重合。
+- **G0：** 两段几何曲线在连接点位置重合。
 - **G1：** 在 G0 基础上，连接处切线方向一致；允许参数速度大小不同，因此不等于 C1。
-- **G2：** 在 G1 基础上，连接处曲率连续；它描述几何形状的平滑程度，不自动保证按时间运动时的加速度连续。
+- **G2：** 在 G1 基础上，按项目声明的曲线约定保持曲率连续。对空间曲线，应明确采用曲率标量、曲率向量或其他适用约定；不能把二维曲线的直觉无条件套到所有三维路径。
 
-只有在曲线正则、参数化与几何条件满足时，才能讨论对应关系；不得把 G1/G2 与 C1/C2 放在同一等级枚举中。设计规格应按需分别声明时间连续性和几何连续性。
+G1/G2 是几何形状关系，C1/C2 是特定时间参数化下的运动关系。只有曲线正则、方向约定、参数映射与几何条件均明确时，才讨论二者之间的关系；不得把 G1/G2 与 C1/C2 放在同一等级枚举中。设计规格应分别声明时间连续性和几何连续性；不涉及路径连接时，几何连续性标记为不适用。
 
 | 场景 | 通常的设计目标 | 说明 |
 |---|---|---|
@@ -572,6 +583,8 @@ art_direction:
   typography: "字体层级、运动单位、阅读保护与多语言边界"
   material: "材质意图、PBR 模型、表面属性、参考依据与渲染器边界"
   lighting: "主光方向、环境、对比、曝光与色彩管理"
+  color: "色彩关系、动态色彩行为、目标色彩空间、最差帧对比与主题适配"
+  sound_haptic: "可选；声音/触觉身份、触发、节奏/包络、与视觉同步、用户控制及无声/无触觉替代"
   motion_character: "能量、重量、精度、弹性、连续性"
   signature_moments: ["关键时刻与其用户/品牌价值"]
   stillness: ["静止区域、阅读窗口与停止条件"]
@@ -746,6 +759,7 @@ CTA 动效用于建立优先级、表达可操作性与确认结果，不用于�
 | `simulation` | 粒子、流场、物理、群体与生命周期 | 定义确定性、暂停、重置、预算和失效策略 |
 | `time` | 时间重映射、慢动作、冻结、进度驱动 | 关键内容仍可达，避免误导因果或进度 |
 | `data` | 数据绑定、数值变化、状态映射 | 不伪造数据，不扭曲比例和离散关系 |
+| `audio_haptic` | 声音提示、节奏、触觉反馈及其与视觉行为的同步 | 不自动播放有声内容；不以声音/触觉作为唯一状态通道；提供用户控制与无声/无触觉替代 |
 
 ### 8.4 扩展族必填契约
 
@@ -759,6 +773,8 @@ CTA 动效用于建立优先级、表达可操作性与确认结果，不用于�
 7. **无障碍：** 减少动态、静态替代、语义和焦点策略。
 8. **降级与验收：** 静态回退、失败模式、性能边界和可观察通过条件。
 
+**`audio_haptic` 附加契约（仅在项目确实使用时填写）：** 声音/触觉的业务或表达动机、触发事件、持续时间与包络、强度范围、与视觉事件的同步关系、重复触发策略、用户开关/静音/系统偏好、设备能力检测、无声音/无触觉时的视觉或语义替代，以及音量/频率/触觉强度的安全边界。不得假设所有设备支持相同触觉能力，也不得自动为每个视觉动画添加声音。
+
 ### 8.5 Motion Spec 模板
 
 **字段职责：** `trigger` 描述离散事件——什么事件开始、取消或改变行为；`driver` 描述持续/连续信号——什么值在运动过程中控制属性。一次点击可以触发一个由 Timeline 驱动的过渡；两者不是同义字段。每条 M 默认描述一个可独立验收的行为，复合序列拆成有依赖关系的 M，避免一个大对象拥有互相冲突的行为状态。
@@ -768,23 +784,30 @@ motion:
   id: M-01
   intent: "运动目的与用户收益"
   trace: [F-01, P-01]
-  target: "目标对象 / 场景"
+  target: "目标对象 / 场景 / 属性"
   trigger:
     kind: "user-action | app-state-change | scroll-boundary | timeline-cue | data-event | system-event"
-    event: "具体事件或条件"
+    event: "具体离散事件或条件"
     repeat_policy: "ignore | restart | retarget | merge | queue"
   driver:
-    value_source: "user-input | timeline-progress | scroll-progress | app-state | data-stream | fixed-step-simulation | event-sampled"
-    clock: "master | scroll | fixed-step | event"
-    ownership: "exclusive | composed"
-    precedence: ["critical-safety/business-state", "explicit-user-input", "app-state", "timeline", "scroll", "ambient"]
+    update_model: "continuous | sampled-event | state-transition"
+    value_source: "user-input | timeline-progress | scroll-progress | app-state | data-stream | simulation-state | none"
+    timebase:
+      kind: "master-timeline | scroll-progress | monotonic-time | fixed-step-simulation | none"
+      id: "时钟/进度源 ID；无则为空"
+    mapping:
+      input_domain: [0, 1]
+      output_domain: "目标属性值域与单位，例如像素、角度或归一化值"
+      function: "identity | linear | easing-token | piecewise | explicit-function"
+      clamp: true
+    precedence: ["project-defined-priority-01", "project-defined-priority-02"]
     conflict_resolution: "cancel | retarget | merge | queue | reject"
     handoff: "inherit-velocity | retarget-from-current | settle-to-state | reset"
   behavior:
     mode: "core | extension"
     core: "fade | translate | scale | rotate | reveal | morph | null"
     extension:
-      family: "camera | path | type | deform | material | simulation | time | data | null"
+      family: "camera | path | type | deform | material | simulation | time | data | audio_haptic | null"
       type: "具体行为名称；未启用时为空"
       contract_ref: "对应扩展契约 ID；未启用时为空"
   state:
@@ -800,17 +823,24 @@ motion:
     path: "路径/方向；不适用时为空"
     bounds: "空间边界和限制"
   time:
-    duration: "Token 或明确时长"
-    delay: "延迟条件"
+    duration_ms: 480
+    delay: "延迟条件；无则为 0"
     easing: "语义曲线 Token"
     hold: "停留条件"
+    progress_mapping:
+      reference: "TIME-01"
+      parameter: "timeline-progress | scroll-progress"
+      domain: [0, 1]
+      function: "linear | explicit-function；滚动驱动的物理时间映射须来自实际输入轨迹"
     continuity:
       parametric:
         class: "C0 | C1 | C2 | not_required"
-        time_basis: "physical-time | normalized-progress（并说明映射）"
-        rationale: "为何需要该连续性"
+        derivative_basis: "physical-time | normalized-progress"
+        mapping_ref: "TIME-01；已在物理时间定义时可为空"
+        rationale: "为何需要该时间连续性"
       geometric:
         class: "G0 | G1 | G2 | not_applicable"
+        curve_convention: "适用曲线、方向与 G2 曲率约定；不适用时为空"
         rationale: "为何需要该几何连续性"
   choreography:
     role: "Lead | Support | Ambient | Still"
@@ -821,6 +851,12 @@ motion:
   binding:
     engine: "技术实现"
     version: "锁定版本"
+    ownership:
+      - property: "被驱动属性，例如 camera.position"
+        primary_writer: "唯一主写入者，例如 gsap:main-timeline"
+        mode: "exclusive | composed"
+        composed_writers: []
+        composition: "组合函数/顺序；exclusive 时为空"
     lifecycle: "create / update / pause / resume / dispose"
     resources: "资源与所有权"
     fallback: "WebGL / static / prerender / DOM / none"
@@ -843,16 +879,17 @@ motion:
         note: "限制与复验条件"
 ```
 
-**条件约束：** `behavior.mode=core` 时填写 `core`，`extension` 留空；`behavior.mode=extension` 时 `core=null`，并完整填写 `extension.family/type/contract_ref` 及 8.4 的扩展族契约。`trigger` 可描述一个离散启动事件，`driver.value_source` 则描述持续驱动值；纯事件型行为可使用 `event-sampled`，无需伪造连续进度。`precedence` 是项目级可配置优先序，示例仅为起点，必须根据关键业务状态、用户输入和安全要求调整，不能机械复制。
+**条件约束：** `behavior.mode=core` 时填写 `core`，扩展字段留空；`behavior.mode=extension` 时 `core=null`，并完整填写 `extension.family/type/contract_ref` 及 8.4 的扩展族契约。`trigger` 只描述离散事件；`driver.update_model` 描述如何更新；`driver.value_source` 描述输入值来源；`timebase` 只描述连续时间/进度基准，不得把事件类型当作时钟。纯状态切换可使用 `update_model=state-transition`、`value_source=none`、`timebase.kind=none`。`mapping` 说明输入值到目标属性的映射；若使用归一化进度进行 C1/C2 判断，必须声明导数基准并引用映射。只有在实际输入轨迹可转换为同一物理时间时，才能据此声称物理速度/加速度连续；滚动驱动的速度由用户输入决定，不能从 0–1 scroll progress 的曲线单独推断物理时间下的 C1/C2。`precedence` 是项目级可配置优先序，示例仅为起点，必须根据关键业务状态、用户输入和安全要求调整，不能机械复制。`binding.ownership` 按被驱动属性声明唯一主写入者；只有确实需要组合写入时才使用 `composed`，并写明组合参与者与组合函数。
 
 ### 8.6 规格完整性、驱动权与逐项验收
 
 **驱动权与优先级（设计契约）：**
-- 每个被驱动属性必须有一个明确主写入者；若组合多个驱动，明确组合函数、执行顺序、范围和冲突策略。
-- `trigger` 是离散事件；`driver` 是持续/连续值来源。不要用一个字段同时表达“开始条件”和“进度控制”。
+- 每个被驱动属性必须在 `binding.ownership` 声明唯一 `primary_writer`；若多个系统共同写入，标明 `composed_writers`、组合函数、执行顺序、值域和冲突策略。`composed` 不是“多人都可以写”，而是一个明确、可复现的组合契约。
+- `trigger` 是离散事件；`driver.update_model` 是更新方式；`driver.value_source` 是值来源；`timebase` 是连续时间/进度基准。不要用一个字段同时表达“开始条件”“更新方式”和“进度控制”。
 - 项目需定义自己的优先序。常见起点是安全/关键业务约束优先，其后是显式用户输入、普通应用状态、叙事 Timeline、Scroll 与 Ambient；但用户输入在普通交互中通常应立即接管，关键业务状态可按产品事实覆盖。必须写明例外，不把此示例当作普遍规则。
-- 用户重新操作时，默认从当前可见状态接管；速度是否继承由输入意图、物理模式和可控性决定。Timeline、Scroll Progress 与 Fixed-step Simulation 是不同时间模型，不可混用。
+- 用户重新操作时，默认从当前可见状态接管；速度是否继承由输入意图、物理模式和可控性决定。Timeline、Scroll Progress、Monotonic Time 与 Fixed-step Simulation 是不同时间模型，不可混用。
 - 同一属性、相机变换或 Shader 参数不得被多个独立系统未经协调地同时写入。实现层映射与生命周期见 9.0。
+- C1/C2 的导数比较必须声明导数参数。若结论涉及物理速度/加速度，必须换算到同一物理时间、单位和坐标系；归一化进度映射应在 `time.progress_mapping` 中声明，并由 `continuity.parametric.mapping_ref` 引用。滚动驱动只有在实际 scroll-position/time 轨迹可测且映射完整时，才可给出物理时间下的 C1/C2 结论。G1/G2 仅适用于明确的几何路径/曲线契约，不替代时间连续性。
 
 **逐项验收与证据：**
 - 每个 `acceptance` 条件绑定自己的 `test` 与 `verification`，允许同一 Motion 内各条验收拥有不同状态；禁止用一个全局状态覆盖所有条件。
@@ -886,7 +923,7 @@ motion:
 - **Trigger：** 离散事件，负责启动、取消、重置或切换行为；事件处理应幂等或明确重复策略。
 - **Driver：** 连续/进度值来源，负责在行为运行期间控制目标属性；事件型动作可采样事件，不必制造虚假的连续信号。
 - **Clock：** 映射到 master timeline、scroll progress、fixed-step simulation 或 event state；说明暂停、回放、时间缩放和确定性条件。
-- **Ownership：** 每个属性有唯一主写入者；共享写入必须显式组合，不允许竞争写入。
+- **Ownership：** 按第 8.5 的 `binding.ownership` 将每个属性映射到唯一主写入者；共享写入必须声明参与者、组合函数与顺序，不允许竞争写入。
 - **Priority / Conflict：** 使用项目级优先序和冲突策略；普通用户输入不得被 Ambient 阻塞，关键安全/业务状态可按产品规则覆盖。
 - **Handoff：** 将契约映射为从当前值接管、速度继承、retarget、settle 或 reset，并定义阈值、边界和停止条件。
 - **Lifecycle：** 创建、加载、播放、暂停、恢复、卸载、销毁和异常恢复均有责任归属；GPU 资源和事件监听不可遗留。
@@ -1158,10 +1195,10 @@ R/S/D/U 不可互相冒充。截图不能证明流畅，代码不能证明体验
 
 ## 15. 版本边界与验证声明
 
-v5.4.1 基于 v5.4.0，仅调整开篇设计宣言与版本治理说明的职责边界：开篇定义动态设计立场与原创原则；本章记录版本变更范围、验证责任和证据适用边界。v5.4.0 的专业能力范围与技术决策体系保持不变。
+v5.5.0 基于 v5.4.1，重点完善 Motion Specification 的驱动模型与属性写入权、时间映射与参数/几何连续性引用；补充静态/动态对照、概念/表现剥离和关键帧比较方法；扩展 Motion Art Direction Sheet 的色彩与声音/触觉字段，并增加 `audio_haptic` 可选行为契约。既有创意推导、艺术指导、技术选型与无障碍框架保持连续，不以增加 API 清单或效果目录作为升级目标。
 
-本技能包交付的是设计方法、规则与技术决策体系，不代表任何新实现或真实项目已经通过测试。历史示例、旧设备数据和旧版本运行记录可以作为参考，但不得自动视为当前版本或当前项目的验收通过证据。
+本技能包交付的是设计方法、规则与技术决策体系，不代表任何新实现或真实项目已经通过测试。文档示例、旧设备数据和旧版本运行记录可以作为参考，但不得自动视为当前版本或当前项目的验收通过证据。
 
-每个新建或升级项目，应根据实际实现范围，按第 12 章建立相应的验证记录，覆盖适用的设备、操作系统、浏览器、辅助技术、GPU 后端、交互行为、性能与降级场景。只有实际执行并留存证据的测试项才能标记为通过；其余明确标记为未验证或受阻。
+每个新建或升级项目，应根据实际实现范围，按第 12 章建立相应的验证记录，覆盖适用的设备、操作系统、浏览器、辅助技术、GPU 后端、交互行为、性能与降级场景。只有实际执行并留存证据的测试项才能标记为通过；其余明确标记为未验证或受阻。内部静态/动态比较属于设计证据（D）；若声称改善用户理解、效率、记忆或转化，必须另有适当的用户研究或真实产品数据支持（R）。
 
 当实现、依赖或运行环境发生可能影响运动行为、视觉表现、性能或可访问性的变化时，重新执行受影响的测试。不受影响且仍能追溯到相同实现和环境的历史证据可以保留，但必须明确其适用范围、版本和测试环境，不得扩大其证明范围。
